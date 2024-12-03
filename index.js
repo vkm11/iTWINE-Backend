@@ -7,11 +7,9 @@ const connectDB = require('./config/db');
 // const studentRoute = require('./routes/student.routes');
 // const schoolRoute = require('./routes/school.routes');
 const userRoute = require('./routes/user.routes');
-// const roleRoute = require('./routes/role.routes');
-// const sectionRoute = require('./routes/section.routes');
-// const parentRoute = require('./routes/parent.routes');
-// const teacherRoute = require('./routes/teacher.routes');
+const clientsRoutes = require('./routes/clients.routes')
 const authRoutes = require('./routes/auth.routes')
+const leavesRoutes = require('./routes/leave.routes')
 
 const app = express();
 
@@ -25,16 +23,11 @@ app.use(cors());
 
 // Routes
 app.use('/auth', authRoutes);
-// app.use('/students', studentRoute);
-// app.use('/school', schoolRoute);
 app.use('/user', userRoute);
-// app.use('/role', roleRoute);
-// app.use('/section', sectionRoute);
-// app.use('/parent', parentRoute);
-// app.use('/teacher', teacherRoute);
-
+app.use('/clients', clientsRoutes);
+app.use('/leave', leavesRoutes)
 // PORT
-const port = process.env.PORT || 4001;
+const port = process.env.PORT || 4000;
 app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
 });
