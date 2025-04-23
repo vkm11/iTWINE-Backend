@@ -6,6 +6,8 @@ const Users = require('../Models/Users');
 const router = express.Router();
 
 // Register
+const { v4: uuidv4 } = require('uuid'); // Import the uuid library to generate a unique ID
+
 router.route("/register").post(async (req, res, next) => {
     const { name, email, mob, password, role } = req.body;
 
@@ -22,8 +24,11 @@ router.route("/register").post(async (req, res, next) => {
             return res.status(400).json({ msg: 'User already exists' });
         }
 
+        // Generate a unique user_id
+        const user_id = uuidv4();  // Generate a unique user_id
+
         // Create a new user
-        user = new Users({ name, email, mob, password, role: roleNumber });
+        user = new Users({ user_id, name, email, mob, password, role: roleNumber });
 
         // Encrypt password
         const salt = await bcrypt.genSalt(10);
@@ -44,7 +49,9 @@ router.route("/register").post(async (req, res, next) => {
     }
 });
 
+
 // Login
+// Login response in backend
 router.post('/login', async (req, res) => {
     const { email, password, role } = req.body;
 
@@ -73,13 +80,13 @@ router.post('/login', async (req, res) => {
         const payload = { user: { id: user.id, name: user.name, role: user.role } };
         const token = jwt.sign(payload, process.env.JWT_SECRET, { expiresIn: '5m' });
 
-        res.json({ token, name: user.name, role: user.role });
-
+        res.json({ token, name: user.name, role: user.role, user_id: user.id });  // Make sure user_id is being returned
     } catch (err) {
         console.error(err.message);
         res.status(500).send('Server error');
     }
 });
+
 
 
 router.get('/verify-token', (req, res) => {

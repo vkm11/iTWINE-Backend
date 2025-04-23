@@ -3,6 +3,7 @@ let mongoose = require("mongoose"),
     router = express.Router();
 // Leave Model
 let leaveSchema = require('../Models/Leave');
+
 // CREATE Leave
 router.route("/create-leave").post(async (req, res, next) => {
     await leaveSchema
@@ -62,5 +63,27 @@ router.route("/update-status/:id").put(async (req, res, next) => {
     }
 });
 
+
+// I want matching userid data only
+// I want matching userid data only
+router.route("/user-leaves/:userId").get(async (req, res, next) => {
+    const userId = req.params.userId; // Extract userId from the URL
+    console.log('User ID received in the request:', userId);
+
+    await leaveSchema
+        .find({ userId: userId })  // Use the userId to filter leaves
+        .sort({ _id: -1 })
+        .then((result) => {
+            console.log('Database result:', result);  // Check the result
+            res.json({
+                data: result,
+                message: "User leaves successfully fetched.",
+                status: 200,
+            });
+        })
+        .catch((err) => {
+            return next(err);
+        });
+});
 
 module.exports = router;

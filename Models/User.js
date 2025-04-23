@@ -6,7 +6,8 @@ let userSchema = new Schema({
         required: true
     },
     email: {
-        type: String
+        type: String,
+        required: true
     },
     mob: {
         type: Number,

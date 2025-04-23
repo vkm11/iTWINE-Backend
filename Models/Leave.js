@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 let leaveSchema = new Schema({
+  
     fname: {
         type: String,
         required: true
@@ -37,6 +38,11 @@ let leaveSchema = new Schema({
         type: Number,
         required: true
     },
+    userId: {
+        type: String,
+        required: true
+    }
+
 
 
 }, {
