@@ -11,6 +11,7 @@ const clientsRoutes = require('./routes/clients.routes')
 const authRoutes = require('./routes/auth.routes')
 const leavesRoutes = require('./routes/leave.routes')
 const newsRoutes = require('./routes/news.routes')
+const teamsRoutes = require('./routes/teams.routes')
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/user', userRoute);
 app.use('/clients', clientsRoutes);
 app.use('/leave', leavesRoutes);
 app.use('/news', newsRoutes);
+app.use('/teams', teamsRoutes)
 // PORT
 const port = process.env.PORT || 4000;
 app.listen(port, () => {
