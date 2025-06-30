@@ -47,13 +47,14 @@ router.route("/get-teams/:id").get(async (req, res, next) => {
             return next(err);
         });
 });
+
 router.route("/delete-teams/:id").delete(async (req, res, next) => {
     await teamsSchema
         .findByIdAndDelete(req.params.id)
         .then((result) => {
             res.json({
                 data: result,
-                message: "Team Successfully Deleted.",
+                msg: "Team Successfully Deleted.",
                 status: 200,
             });
         })
@@ -61,18 +62,21 @@ router.route("/delete-teams/:id").delete(async (req, res, next) => {
             return next(err);
         });
 });
+
 router.route("/update-teams/:id").put(async (req, res, next) => {
     await teamsSchema
-        .findByIdAndUpdate(req.params.id)
+        .findByIdAndUpdate(req.params.id, {
+            $set: req.body,
+        })
         .then((result) => {
+            console.log(result);
             res.json({
                 data: result,
-                message: "Team Successfully Deleted.",
-                status: 200,
+                msg: "Data successfully updated.",
             });
         })
         .catch((err) => {
-            return next(err);
+            console.log(err);
         });
 });
 module.exports = router;
